@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct TaskView: View {
-    @State private var date = Date()
-    @State private var text = ""
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
+    @StateObject private var viewModel = TaskViewModel()
     
     var body: some View {
         NavigationView {
@@ -22,16 +23,23 @@ struct TaskView: View {
                     .padding()
                     
                 Form {
-                    TextField("Title", text: $text)
+                    TextField("Title", text: $viewModel.title)
                         .textFieldStyle(DefaultTextFieldStyle())
                     
-                    DatePicker("", selection: $date, in: Date()...)
+                    DatePicker("Date", selection: $viewModel.date, in: Date()...)
                         .datePickerStyle(GraphicalDatePickerStyle())
                     
                     Button("Save") {
                         
+                        if viewModel.canSave() {
+                            viewModel.save()
+                            action: do { self.presentationMode.wrappedValue.dismiss() }
+                        } else {
+                            viewModel.showAlert = true
+                        }
+                        
                     }.padding()
-                        .frame(width: UIScreen.main.bounds.size.width/1.2, height: 50, alignment: .center)
+                        .frame(width: CGFloat.dWidth/1.2, height: 50, alignment: .center)
                         .font(.title2)
                         .background()
                         .cornerRadius(10)
@@ -40,7 +48,9 @@ struct TaskView: View {
                                 .stroke(lineWidth: 0)
                         }
                 }
-                
+                .alert(isPresented: $viewModel.showAlert) {
+                    Alert(title: Text("Error"), message: Text("Please fill the title!"))
+                }
             }
         }
     }

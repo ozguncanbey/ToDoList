@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ListView: View {
-    @State private var showingTask = false
+    
     @State private var taskList: [Task]? = []
+    @StateObject private var viewModel = ListViewModel()
     
     var body: some View {
         
@@ -33,10 +34,10 @@ struct ListView: View {
             }.navigationTitle(Text("Tasks"))
                 .toolbar {
                     Button {
-                        showingTask.toggle()
+                        viewModel.showingTask.toggle()
                     } label: {
                         Image(systemName: "plus")
-                    }.sheet(isPresented: $showingTask) {
+                    }.sheet(isPresented: $viewModel.showingTask) {
                         TaskView()
                     }
                 }
@@ -53,10 +54,4 @@ struct ListView_Previews: PreviewProvider {
 //                .environment(\.colorScheme, .dark)
         }
     }
-}
-
-struct Task: Identifiable {
-    let id = UUID()
-    let title: String?
-    let date: Date?
 }
