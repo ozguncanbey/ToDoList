@@ -10,5 +10,16 @@ import Foundation
 struct Task: Identifiable {
     let id = UUID()
     let title: String?
-    let date: Date?
+    let date: String?
+    var isDone: Bool
+    
+    mutating func setDone(_ state: Bool) {
+        isDone = state
+    }
+    
+    init(title: String?, date: String?, isDone: Bool) {
+        self.title = title
+        self.date = date
+        self.isDone = isDone
+    }
 }

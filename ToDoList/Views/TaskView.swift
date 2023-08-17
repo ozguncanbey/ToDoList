@@ -11,6 +11,7 @@ struct TaskView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @StateObject private var viewModel = TaskViewModel()
+    @Binding var taskList: [Task]
     
     var body: some View {
         NavigationView {
@@ -32,7 +33,7 @@ struct TaskView: View {
                     Button("Save") {
                         
                         if viewModel.canSave() {
-                            viewModel.save()
+                            taskList.append(viewModel.save()!)
                             action: do { self.presentationMode.wrappedValue.dismiss() }
                         } else {
                             viewModel.showAlert = true
@@ -56,13 +57,13 @@ struct TaskView: View {
     }
 }
 
-struct TaskView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            TaskView()
-            
-//            TaskView()
-//                .environment(\.colorScheme, .dark)
-        }
-    }
-}
+//struct TaskView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Group {
+//            TaskView(taskList: [Task].init())
+//            
+////            TaskView()
+////                .environment(\.colorScheme, .dark)
+//        }
+//    }
+//}
