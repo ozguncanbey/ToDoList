@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ListItemsView: View {
-    @StateObject var viewModel = ListItemsViewModel()
     let task: Task
     
     var body: some View {
