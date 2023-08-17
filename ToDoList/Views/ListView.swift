@@ -22,6 +22,11 @@ struct ListView: View {
                 List {
                     ForEach(taskList) { task in
                         ListItemsView(task: task)
+                            .onTapGesture {
+                                withAnimation(.linear) {
+                                    viewModel.update(task: task, tasks: &taskList)
+                                }
+                            }
                     }
                     .onDelete { indexSet in
                         viewModel.delete(tasks: &taskList, indexSet: indexSet)

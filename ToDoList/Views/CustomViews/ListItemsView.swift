@@ -9,15 +9,15 @@ import SwiftUI
 
 struct ListItemsView: View {
     @StateObject var viewModel = ListItemsViewModel()
-    var task: Task
+    let task: Task
     
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(task.title!)
+                Text(task.title)
                     .font(.title3)
                 
-                Text(task.date!)
+                Text(task.date)
                     .foregroundColor(.secondary)
                     .font(.footnote)
                     .padding(.top, 0.5)
@@ -25,18 +25,13 @@ struct ListItemsView: View {
             
             Spacer()
             
-            Button {
-                //viewModel.toggleIsDone(task: &task)
-            } label: {
-                Image(systemName: task.isDone ? "checkmark.circle.fill" : "circle")
-            }
-
+            Image(systemName: task.isDone ? "checkmark.circle.fill" : "circle")
         }
     }
 }
 
 struct ListItemsView_Previews: PreviewProvider {
     static var previews: some View {
-        ListItemsView(task: Task.init(title: "Buy Egg", date: "12/12/12", isDone: false))
+        ListItemsView(task: Task(title: "egg", date: "12/12/12", isDone: false))
     }
 }

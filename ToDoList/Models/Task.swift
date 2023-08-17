@@ -7,19 +7,20 @@
 
 import Foundation
 
-struct Task: Identifiable {
-    let id = UUID()
-    let title: String?
-    let date: String?
+struct Task: Identifiable, Codable {
+    let id: String
+    let title: String
+    let date: String
     var isDone: Bool
     
-    mutating func setDone(_ state: Bool) {
-        isDone = state
-    }
-    
-    init(title: String?, date: String?, isDone: Bool) {
+    init(id: String = UUID().uuidString, title: String, date: String, isDone: Bool) {
+        self.id = id
         self.title = title
         self.date = date
         self.isDone = isDone
+    }
+    
+    func updateCompletion() -> Task {
+        return Task(id: id, title: title, date: date, isDone: !isDone)
     }
 }
